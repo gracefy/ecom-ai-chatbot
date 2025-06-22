@@ -33,4 +33,8 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
+# Big data files
+data/embedding_with_metadata.pkl
+data/*.pkl
+
 
