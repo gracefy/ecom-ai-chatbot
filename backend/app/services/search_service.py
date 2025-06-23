@@ -4,11 +4,12 @@ from typing import Dict
 from backend.app.services.embedding_service import generate_embedding
 from backend.app.services.filter_extraction import extract_filters
 
+embedding_df = pd.read_pickle("data/product_embedding_index.pkl")
+
 
 # --- Search Logic ---
-def search_candidates(
+def search_products(
     query_text: str,
-    embedding_df: pd.DataFrame,
     top_k: int = 5,
     prefetch_k: int = 100,
     bonus_weight: float = 0.1,
