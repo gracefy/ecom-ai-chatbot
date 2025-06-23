@@ -56,10 +56,11 @@ def clean_dataset(input_path: str, output_path: str):
         "product_name": "string",
         "product_brand": "string",
         "description": "string",
-        "gender": "category",
-        "primary_color": "category",
+        "gender": "string",
+        "primary_color": "string",
         "price_inr": "float64",
     }
+
     df = df.astype(dtype_mapping)
 
     df = df.drop_duplicates().reset_index(drop=True)
