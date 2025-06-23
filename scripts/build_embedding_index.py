@@ -9,7 +9,7 @@ def build_embedding_index(input_path: str, output_path: str):
     Generate embeddings for full dataset in batches, build embedding index and save as pickle.
     """
     df = pd.read_csv(input_path)
-    texts = df["full_text"].tolist()
+    texts = df["context"].tolist()
     total_batches = (len(texts) + BATCH_SIZE - 1) // BATCH_SIZE
 
     all_embeddings = []
