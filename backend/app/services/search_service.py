@@ -73,7 +73,13 @@ def search_products(
 
     # Sort by final score and return top-k results
     final_results = candidates.sort_values("final_score", ascending=False).head(top_k)
-    return final_results.reset_index(drop=True)
+    records = final_results.to_dict(orient="records")
+
+    # Convert product_id to string for consistency
+    for r in records:
+        r["product_id"] = str(r["product_id"])
+
+    return records
 
 
 def _cosine_similarity_batch(a: np.ndarray, b: np.ndarray) -> np.ndarray:
