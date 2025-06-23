@@ -1,19 +1,30 @@
 import numpy as np
 import pandas as pd
-from typing import Dict
+from typing import Dict, List
 from backend.app.services.embedding_service import generate_embedding
 from backend.app.services.filter_extraction import extract_filters
 
-embedding_df = pd.read_pickle("data/product_embedding_index.pkl")
+EMBEDDING_DF = pd.read_pickle("data/product_embedding_index.pkl")
+
+FINAL_FIELDS = [
+    "product_id",
+    "product_name",
+    "product_brand",
+    "gender",
+    "color_group",
+    "price_inr",
+    "final_score",
+]
 
 
 # --- Search Logic ---
 def search_products(
     query_text: str,
+    embedding_df: pd.DataFrame = EMBEDDING_DF,
     top_k: int = 5,
     prefetch_k: int = 100,
     bonus_weight: float = 0.1,
-) -> pd.DataFrame:
+) -> List[Dict]:
     """
     Full search pipeline: vector search + soft filters + ranking.
 
@@ -25,7 +36,7 @@ def search_products(
         bonus_weight (float): Weight for soft filter bonus.
 
     Returns:
-        pd.DataFrame: Top-k search results.
+        List[Dict]: Top-k search results as list of records.
     """
 
     # Extract filters from query
@@ -73,6 +84,7 @@ def search_products(
 
     # Sort by final score and return top-k results
     final_results = candidates.sort_values("final_score", ascending=False).head(top_k)
+    final_results = final_results[FINAL_FIELDS].reset_index(drop=True)
     records = final_results.to_dict(orient="records")
 
     # Convert product_id to string for consistency
