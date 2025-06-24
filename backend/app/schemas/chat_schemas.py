@@ -1,17 +1,12 @@
 from pydantic import BaseModel
-from typing import Optional
+from backend.app.schemas.search_result import SearchResult
+from typing import List
 
 
 class ChatRequest(BaseModel):
     query: str
-    top_k: Optional[int] = 5
 
 
-class SearchResult(BaseModel):
-    product_id: str
-    product_name: str
-    product_brand: str
-    gender: str
-    color_group: str
-    price_inr: float
-    final_score: float
+class ChatResponse(BaseModel):
+    answer: str
+    sources: List[SearchResult]

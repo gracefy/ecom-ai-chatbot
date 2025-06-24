@@ -1,14 +1,12 @@
 from fastapi import APIRouter, HTTPException, status
-import pandas as pd
-from typing import List
-from backend.app.services.search_service import search_products
-from backend.app.schemas.chat_schemas import ChatRequest, SearchResult
+from backend.app.services.vector_rag_service import generate_answer
+from backend.app.schemas.chat_schemas import ChatRequest, ChatResponse
 
 # Create a FastAPI router
 router = APIRouter()
 
 
-@router.post("/", response_model=List[SearchResult])
+@router.post("/")
 async def chat(request: ChatRequest):
     """
     Handle chat queries and return search results.
@@ -28,12 +26,12 @@ async def chat(request: ChatRequest):
             )
 
         # Perform the search operation
-        results = search_products(query_text=query, top_k=request.top_k)
+        results = generate_answer(user_query=query)
 
         # Convert records to SearchResult schema
-        response = [SearchResult(**item) for item in results]
+        # response = [SearchResult(**item) for item in results]
 
-        return response
+        return results
 
     except Exception as e:
         raise HTTPException(

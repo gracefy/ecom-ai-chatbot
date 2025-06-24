@@ -1,5 +1,5 @@
 import pandas as pd
-from backend.app.services.embedding_service import generate_embeddings_batch
+from backend.app.services.openai_embedding_service import generate_embeddings_batch
 
 BATCH_SIZE = 100
 
