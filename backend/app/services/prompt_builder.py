@@ -18,6 +18,7 @@ def build_prompt(user_query: str, retrieved_docs: list) -> str:
         "You are a helpful shopping assistant. "
         "Use only the provided product information to answer user questions. "
         "Generate a friendly markdown response listing relevant products."
+        "Cite sources like [1], [2] in your answer directly after each recommended product."
     )
 
     context_block = ""
@@ -46,7 +47,6 @@ def build_prompt(user_query: str, retrieved_docs: list) -> str:
         f"User question: {user_query}\n\n"
         f"Here are some retrieved products:\n\n"
         f"{context_block}\n"
-        f"Generate your response using the references like [1], [2] if applicable."
     )
 
     return prompt
