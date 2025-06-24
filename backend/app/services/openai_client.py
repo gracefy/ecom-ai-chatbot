@@ -10,6 +10,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai = OpenAI(api_key=OPENAI_API_KEY)
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
+CHAT_MODEL = "gpt-3.5-turbo"
 
 
 def generate_embedding(text: str, model: str = EMBEDDING_MODEL) -> List[float]:
@@ -42,3 +43,24 @@ def generate_embeddings_batch(
             time.sleep(2**attempt)
 
     return [None] * len(texts)
+
+
+def chat_completion(messages: List[dict], model: str = CHAT_MODEL) -> str:
+    """
+    Generate chat completion response from OpenAI API.
+
+    Args:
+        messages (List[dict]): List of message dictionaries containing role and content.
+        model (str): The model to use for chat completion.
+
+    Returns:
+        str: The generated response from the model.
+    """
+    try:
+        response = openai.chat.completions.create(
+            model=model, messages=messages, temperature=0.3, max_tokens=1024
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        print(f"Chat completion error: {e}")
+        return ""

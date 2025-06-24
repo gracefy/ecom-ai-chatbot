@@ -4,7 +4,6 @@ from typing import Optional
 
 class ChatRequest(BaseModel):
     query: str
-    top_k: Optional[int] = 5
 
 
 class SearchResult(BaseModel):
