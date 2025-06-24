@@ -27,5 +27,5 @@ def generate_answer(user_query: str) -> dict:
 
     return {
         "answer": answer,
-        "retrieved_docs": retrieved_docs,
+        "sources": retrieved_docs,
     }

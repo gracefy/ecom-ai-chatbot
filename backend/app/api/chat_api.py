@@ -6,7 +6,7 @@ from backend.app.schemas.chat_schemas import ChatRequest, ChatResponse
 router = APIRouter()
 
 
-@router.post("/")
+@router.post("/", response_model=ChatResponse, tags=["chat"])
 async def chat(request: ChatRequest):
     """
     Handle chat queries and return search results.
@@ -24,16 +24,16 @@ async def chat(request: ChatRequest):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Query cannot be empty"
             )
+        if len(query) > 500:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Query exceeds maximum length of 500 characters",
+            )
 
         # Perform the search operation
-        results = generate_answer(user_query=query)
+        result = generate_answer(user_query=query)
 
-        # Convert records to SearchResult schema
-        # response = [SearchResult(**item) for item in results]
-
-        return results
+        return ChatResponse(success=True, data=result, error=None)
 
     except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
-        )
+        return ChatResponse(success=False, data=None, error=str(e))
