@@ -1,9 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
-import pandas as pd
-from typing import List
-from backend.app.services.search_service import search_products
-from backend.app.services.rag_service import generate_answer
-from backend.app.schemas.chat_schemas import ChatRequest, SearchResult
+from backend.app.services.vector_rag_service import generate_answer
+from backend.app.schemas.chat_schemas import ChatRequest, ChatResponse
 
 # Create a FastAPI router
 router = APIRouter()
