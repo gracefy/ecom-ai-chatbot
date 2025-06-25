@@ -1,7 +1,7 @@
 # backend/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.api import chat_api
+from backend.app.api import chat_api, product_api
 
 app = FastAPI()
 
@@ -15,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(chat_api.router, prefix="/chat")
+app.include_router(product_api.router, prefix="/product")
 
 
 @app.get("/")
