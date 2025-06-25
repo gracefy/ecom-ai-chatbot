@@ -16,7 +16,7 @@ const Chatbot = () => {
   // Default greeting message shown when chat opens
   const defaultGreeting: Message = {
     role: "bot",
-    text: "Hello, I’m Nesti. How can I help you today?",
+    text: "Hello, I’m FashionBot. How can I help you today?",
     sources: [],
     mode: mode,
   };

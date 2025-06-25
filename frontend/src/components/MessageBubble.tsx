@@ -1,4 +1,4 @@
-import { User, BotMessageSquare } from "lucide-react";
+import { User } from "lucide-react";
 import { clsx } from "clsx";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -19,7 +19,11 @@ const MessageBubble = ({ role, text, sources, mode, isLoading }: Props) => {
   if (isLoading) {
     return (
       <div className={clsx("flex w-full mb-4 gap-2 items-center")}>
-        <BotMessageSquare className="w-5 h-5 text-brand/80 scale-x-[-1]" />
+        <img
+          src="/chatbot.png"
+          alt="Bot Avatar"
+          className="w-6 h-6 rounded-full"
+        />
 
         <div className="bot-bubble text-gray-100 italic px-4 py-2 rounded-xl bg-brand/80 flex gap-1">
           <span>Thinking</span>
@@ -47,12 +51,16 @@ const MessageBubble = ({ role, text, sources, mode, isLoading }: Props) => {
         {/* Avatar*/}
         {!isUser && (
           <div className="absolute -top-4 left-0">
-            <BotMessageSquare className="w-5 h-5 text-brand scale-x-[-1]" />
+            <img
+              src="/chatbot.png"
+              alt="Bot Avatar"
+              className="w-6 h-6 rounded-full"
+            />
           </div>
         )}
         {isUser && (
           <div className="absolute -top-4 right-0">
-            <User className="w-5 h-5 text-gray-400" />
+            <User className="w-5 h-5 text-brand" />
           </div>
         )}
 

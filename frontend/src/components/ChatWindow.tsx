@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { clsx } from "clsx";
-import { X, BotMessageSquare, Maximize2, Minimize2 } from "lucide-react";
+import { X, Maximize2, Minimize2 } from "lucide-react";
 import ChatInput from "@/components/ChatInput";
 import MessageBubble, {
   type Props as Message,
@@ -45,8 +45,12 @@ const ChatWindow = ({
       {/* Header */}
       <div className="bg-brand text-white px-4 py-2 flex items-center justify-between text-sm font-semibold rounded-t-xl">
         <div className="flex items-center gap-2">
-          <BotMessageSquare className="w-6 h-6 scale-x-[-1]" />
-          <span>Nesti</span>
+          <img
+            src="/chatbot.png"
+            alt="Bot Avatar"
+            className="w-6 h-6 rounded-full"
+          />
+          <span>FashionBot</span>
         </div>
 
         <div className="flex items-center gap-2">
