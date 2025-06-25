@@ -7,7 +7,7 @@ export interface Props {
   role: "user" | "bot";
   text: string;
   mode: "normal" | "expanded" | "closed";
-  sources?: { title: string; url: string }[];
+  sources?: { product_id: string; product_name: string }[];
   isLoading?: boolean;
 }
 
@@ -15,6 +15,7 @@ export interface Props {
 const MessageBubble = ({ role, text, sources, mode, isLoading }: Props) => {
   const isUser = role === "user";
   const isExpanded = mode === "expanded";
+  const frontendUrl = import.meta.env.VITE_FRONTEND_URL;
 
   if (isLoading) {
     return (
@@ -93,7 +94,7 @@ const MessageBubble = ({ role, text, sources, mode, isLoading }: Props) => {
             {sources.map((s, i) => (
               <a
                 key={i}
-                href={s.url}
+                href={`${frontendUrl}/product/${s.product_id}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-brand/80 hover:text-brand"

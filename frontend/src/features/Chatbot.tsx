@@ -101,7 +101,7 @@ const Chatbot = () => {
     <motion.div
       layout
       transition={{ duration: 0.25 }}
-      className="fixed bottom-6 right-6 z-50"
+      className="fixed bottom-15 right-6 z-50"
     >
       {mode === "closed" ? (
         <FloatingChatButton onClick={handleOpenChat} />

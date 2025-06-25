@@ -1,15 +1,19 @@
 import "./App.css";
-import Chatbot from "@/features/Chatbot";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "@/pages/home/HomePage";
+import ProductDetailPage from "@/pages/product/[id]";
+import Layout from "@/layout/Layout";
 
 function App() {
   return (
-    <div className="bg-[url(/home-bg.jpg)] min-h-screen w-full bg-cover bg-center bg-no-repeat">
-      <div className="absolute inset-0 bg-black/20 z-10">
-        <div className="z-50">
-          <Chatbot />
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
