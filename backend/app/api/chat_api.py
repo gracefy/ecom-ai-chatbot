@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from backend.app.services.vector_rag_service import generate_answer
+from backend.app.services.azure_ai_rag_service import generate_answer_azure
 from backend.app.schemas.chat_schemas import ChatRequest, ChatResponse
 
 # Create a FastAPI router
@@ -30,8 +31,11 @@ async def chat(request: ChatRequest):
                 detail="Query exceeds maximum length of 500 characters",
             )
 
-        # Perform the search operation
-        result = generate_answer(user_query=query)
+        # Perform the search operation using the vector search service
+        # result = generate_answer(user_query=query)
+
+        # If using Azure AI, uncomment the following line instead:
+        result = generate_answer_azure(user_query=query)
 
         return ChatResponse(success=True, data=result, error=None)
 

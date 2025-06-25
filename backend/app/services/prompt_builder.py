@@ -11,19 +11,9 @@ def build_prompt(user_query: str, retrieved_docs: list) -> str:
     if not user_query.strip():
         raise ValueError("User query cannot be empty.")
 
-    if not retrieved_docs:
-        retrieved_docs = []
-
-    system_instruction = (
-        "You are a helpful shopping assistant. "
-        "Use only the provided product information to answer user questions. "
-        "Generate a friendly markdown response listing relevant products."
-        "Cite sources like [1], [2] in your answer directly after each recommended product."
-    )
-
     context_block = ""
 
-    total_tokens = _count_tokens(system_instruction + user_query, model=CHAT_MODEL)
+    total_tokens = _count_tokens(user_query, model=CHAT_MODEL)
 
     for doc in retrieved_docs:
         if not doc.context or not doc.context.strip():
@@ -42,12 +32,7 @@ def build_prompt(user_query: str, retrieved_docs: list) -> str:
         context_block += candidate_snippet
         total_tokens += candidate_tokens
 
-    prompt = (
-        f"{system_instruction}\n\n"
-        f"User question: {user_query}\n\n"
-        f"Here are some retrieved products:\n\n"
-        f"{context_block}\n"
-    )
+    prompt = f"{user_query}\n\nContext:{context_block}\n"
 
     return prompt
 

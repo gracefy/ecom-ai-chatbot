@@ -9,10 +9,10 @@ EMBEDDING_DF = pd.read_pickle("data/product_embedding_index.pkl")
 
 # --- Search Logic ---
 def search_products(
-    query_text: str, embedding_df: pd.DataFrame = EMBEDDING_DF, top_k: int = 5
+    user_query: str, embedding_df: pd.DataFrame = EMBEDDING_DF, top_k: int = 5
 ) -> List[dict]:
     # Generate embedding for query
-    query_embedding = generate_embedding(query_text)
+    query_embedding = generate_embedding(user_query)
 
     # Vector search
     embeddings_vectors = np.vstack(embedding_df["embedding"].tolist()).astype(
@@ -36,11 +36,6 @@ def search_products(
             index=idx,
             product_id=str(row.product_id),
             product_name=str(row.product_name),
-            brand=str(row.product_brand),
-            gender=str(row.gender),
-            color=str(row.primary_color),
-            price=float(row.price_inr),
-            description=str(row.description),
             context=str(row.context),
             score=float(similarity_scores[row_idx]),
         )

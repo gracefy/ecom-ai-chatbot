@@ -28,6 +28,7 @@ __pycache__/
 *.py[cod]
 .venv/
 .env
+.env.*
 *.sqlite3
 
 # Jupyter
