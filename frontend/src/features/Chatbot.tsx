@@ -1,0 +1,124 @@
+import { useState } from "react";
+import FloatingChatButton from "@/components/FloatingChatButton";
+import ChatWindow from "@/components/ChatWindow";
+import { type Props as Message } from "@/components/MessageBubble";
+import { extractUsedIndices, remapAnswer, getUsedSources } from "./utils";
+import { motion } from "framer-motion";
+
+// Global chatbot state and layout controller
+const Chatbot = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Chat UI display mode: closed, normal (default size), expanded (large size)
+  const [mode, setMode] = useState<"normal" | "expanded" | "closed">("closed");
+
+  // Default greeting message shown when chat opens
+  const defaultGreeting: Message = {
+    role: "bot",
+    text: "Hello, I’m Nesti. How can I help you today?",
+    sources: [],
+    mode: mode,
+  };
+
+  // handle opening the chat window
+  const handleOpenChat = () => {
+    setMode("normal");
+    setMessages((prev) => {
+      const hasGreeting = prev.some((m) => m.text === defaultGreeting.text);
+      return hasGreeting ? prev : [...prev, defaultGreeting];
+    });
+  };
+
+  // Handle user question and send to backend API
+  const handleSend = async (question: string) => {
+    const userMessage: Message = {
+      role: "user",
+      text: question,
+      sources: [],
+      mode,
+    };
+    const loadingMessage: Message = {
+      role: "bot",
+      text: "",
+      sources: [],
+      mode,
+      isLoading: true,
+    };
+
+    // Show user message and loading indicator
+    setMessages((prev) => [...prev, userMessage, loadingMessage]);
+    setIsLoading(true);
+
+    // Get the base URL from environment variables
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+    try {
+      // Send question to backend /chat endpoint
+      const res = await fetch(`${baseUrl}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: question }),
+      });
+      const result = await res.json();
+      console.log("Response from server:", result);
+      const data = result.data;
+
+      // Process answer and filter source references
+      const usedIndices = extractUsedIndices(data.answer);
+      const remappedAnswer = remapAnswer(data.answer, usedIndices);
+      const filteredSources = getUsedSources(data.sources, usedIndices);
+
+      // Replace loading message with final bot response
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = {
+          role: "bot",
+          text: remappedAnswer,
+          sources: filteredSources,
+          mode,
+        };
+        return updated;
+      });
+    } catch {
+      // On error, show fallback error message
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = {
+          role: "bot",
+          text: "Sorry, I encountered an error while processing your request.",
+          sources: [],
+          mode,
+        };
+        return updated;
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <motion.div
+      layout
+      transition={{ duration: 0.25 }}
+      className="fixed bottom-6 right-6 z-50"
+    >
+      {mode === "closed" ? (
+        <FloatingChatButton onClick={handleOpenChat} />
+      ) : (
+        <ChatWindow
+          mode={mode}
+          onToggleSize={() =>
+            setMode(mode === "normal" ? "expanded" : "normal")
+          }
+          onClose={() => setMode("closed")}
+          onSend={handleSend}
+          messages={messages}
+          isLoading={isLoading}
+        />
+      )}
+    </motion.div>
+  );
+};
+
+export default Chatbot;
