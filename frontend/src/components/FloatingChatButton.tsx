@@ -1,4 +1,3 @@
-import { BotMessageSquare } from "lucide-react";
 import { clsx } from "clsx";
 
 interface Props {
@@ -16,7 +15,11 @@ const FloatingChatButton = ({ onClick }: Props) => {
       onClick={onClick}
       aria-label="Open chat"
     >
-      <BotMessageSquare className="w-6 h-6 scale-x-[-1]" />
+      <img
+        src="/chatbot.png"
+        alt="Bot Avatar"
+        className="w-6 h-6 rounded-full"
+      />
       <span className="text-xs md:text-sm">Need Help?</span>
     </button>
   );

@@ -9,7 +9,7 @@
   --color-muted: #f0f4f8;
 
   /* Fonts */
-  --font--sans: "Inter", sans-serif;
-  --font--serif: "Merriweather", serif;
-  --font--mono: "Fira Code", monospace;
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Merriweather", serif;
+  --font-mono: "Fira Code", monospace;
 }

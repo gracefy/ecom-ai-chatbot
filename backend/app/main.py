@@ -18,4 +18,4 @@ app.add_middleware(
 app.include_router(chat_api.router, tags=["chat"])
 app.include_router(product_api.router, tags=["product"])
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")

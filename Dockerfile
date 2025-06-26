@@ -20,7 +20,7 @@ COPY backend ./backend
 COPY data ./data
 
 # Copy built frontend
-COPY --from=frontend-builder /frontend/dist ./static
+COPY --from=frontend-builder /frontend/dist ./frontend/dist
 
 
 

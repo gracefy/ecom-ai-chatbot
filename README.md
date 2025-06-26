@@ -1,5 +1,7 @@
 # AI Chatbot with Vector Search & RAG (Exploration Project)
 
+**🟢 [Live Demo](https://chatbot.graceye.ca)**
+
 This project is an exploration to build an AI-powered chatbot that answers product-related questions using Retrieval-Augmented Generation (RAG) and vector search.
 
 ## Project Overview
