@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
-from backend.app.services.vector_rag_service import generate_answer
+
+# from backend.app.services.vector_rag_service import generate_answer
 from backend.app.services.azure_ai_rag_service import generate_answer_azure
 from backend.app.schemas.chat_schemas import ChatRequest, ChatResponse
 
@@ -7,7 +8,7 @@ from backend.app.schemas.chat_schemas import ChatRequest, ChatResponse
 router = APIRouter()
 
 
-@router.post("/", response_model=ChatResponse, tags=["chat"])
+@router.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     """
     Handle chat queries and return search results.

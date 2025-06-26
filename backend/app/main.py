@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.api import chat_api, product_api
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -14,12 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(chat_api.router, prefix="/chat")
-app.include_router(product_api.router, prefix="/product")
+app.include_router(chat_api.router, tags=["chat"])
+app.include_router(product_api.router, tags=["product"])
 
-
-@app.get("/")
-async def root():
-    return {
-        "message": "E-Commerce AI Chatbot API is running. See /docs for API documentation."
-    }
+app.mount("/", StaticFiles(directory="static", html=True), name="static")

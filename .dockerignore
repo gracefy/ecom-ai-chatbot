@@ -1,0 +1,33 @@
+# Bytecode cache and compiled files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+*.log
+
+# Mac system files
+.DS_Store
+
+# Editor folders
+.vscode/
+.idea/
+
+# Notebooks and scripts
+notebooks/
+scripts/
+
+# Data files
+data/*.pkl
+
+# Frontend build artifacts and dependencies
+node_modules/
+dist/
+build/
+.vite/
